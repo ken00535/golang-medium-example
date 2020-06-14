@@ -1,3 +1,7 @@
 # README
 
-this is readme file
+## Build
+
+```batch
+.\scripts\build_win.bat
+```
