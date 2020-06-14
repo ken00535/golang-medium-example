@@ -10,11 +10,11 @@ func main() {
 	router.Add("hello", helloHandler)
 	var res route.Message
 	req := route.Message{
-		Content: "go",
+		Identification: "hello",
+		Content:        "Gopher",
 	}
 	router.Run(&res, &req)
-	router.Run(&res, &req)
-	fmt.Println(res)
+	fmt.Println(res.Content)
 }
 
 func helloHandler(res, req *route.Message) {
