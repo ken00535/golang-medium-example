@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+option go_package = "example/pkg/pb/person";
+
+package person;
+
+message Person {
+    string name = 1;
+    string address = 2;
+    string gender = 3;
+    int32 age = 4;
+}
