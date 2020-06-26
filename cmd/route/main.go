@@ -1,8 +1,8 @@
 package main
 
 import (
+	"example/pkg/route"
 	"fmt"
-	"router/pkg/route"
 )
 
 func main() {
