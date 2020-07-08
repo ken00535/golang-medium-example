@@ -9,16 +9,23 @@ import (
 
 func main() {
 	client := pubsub.NewClient()
-	var printMessage func(pubsub.DataType) error
-	printMessage = func(msg pubsub.DataType) error {
+	client.AddTopic("hello")
+	client.AddTopic("echo")
+	var printMessage = func(msg pubsub.DataType) error {
 		if msg == "error" {
-			return errors.New("this is an error")
+			return errors.New("This is an error")
 		}
 		fmt.Println(msg)
 		return nil
 	}
-	client.Sub(printMessage)
-	client.Pub("Hello")
-	client.Pub("error")
+	var echoMessage = func(msg pubsub.DataType) error {
+		fmt.Println(msg + " nice to meet you!")
+		return nil
+	}
+	client.Sub("hello", printMessage)
+	client.Sub("echo", echoMessage)
+	client.Pub("hello", "Hello")
+	client.Pub("hello", "error")
+	client.Pub("echo", "Go")
 	time.Sleep(time.Second)
 }
