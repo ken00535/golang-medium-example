@@ -10,9 +10,9 @@ type DataType string
 
 // MessageChannel is a channel of pub/sub pattern
 type MessageChannel struct {
-	writer  chan DataType
-	readers []chan DataType
-	mutex   sync.Mutex
+	pub   chan DataType
+	subs  []chan DataType
+	mutex sync.Mutex
 }
 
 // Client is client of pub/sub pattern
@@ -22,18 +22,18 @@ type Client struct {
 
 // Pub publish message
 func (m *Client) Pub(topic string, data DataType) {
-	m.topic[topic].writer <- data
+	m.topic[topic].pub <- data
 }
 
 // Sub subscribe message
 func (m *Client) Sub(topic string, handler func(DataType) error) {
 	m.topic[topic].mutex.Lock()
 	defer m.topic[topic].mutex.Unlock()
-	readChannel := make(chan DataType, 10)
-	m.topic[topic].readers = append(m.topic[topic].readers, readChannel)
+	subChannel := make(chan DataType, 10)
+	m.topic[topic].subs = append(m.topic[topic].subs, subChannel)
 	go func() {
 		for {
-			data := <-readChannel
+			data := <-subChannel
 			if err := handler(data); err != nil {
 				fmt.Println(err)
 			}
@@ -44,12 +44,12 @@ func (m *Client) Sub(topic string, handler func(DataType) error) {
 // AddTopic publish message
 func (m *Client) AddTopic(topic string) {
 	m.topic[topic] = &MessageChannel{
-		writer: make(chan DataType, 10),
+		pub: make(chan DataType, 10),
 	}
 	go func() {
 		for {
-			data := <-m.topic[topic].writer
-			for _, reader := range m.topic[topic].readers {
+			data := <-m.topic[topic].pub
+			for _, reader := range m.topic[topic].subs {
 				reader <- data
 			}
 		}
