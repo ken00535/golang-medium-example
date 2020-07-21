@@ -1,0 +1,6 @@
+CREATE TABLE players (
+	id SERIAL PRIMARY KEY,
+	age SMALLINT NOT NULL,
+	username VARCHAR(50) UNIQUE NOT NULL,
+	budget INTEGER
+);

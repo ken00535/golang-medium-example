@@ -1,0 +1,7 @@
+2020-07-21 22:38:23.205 CST [69136] LOG:  starting PostgreSQL 12.2, compiled by Visual C++ build 1914, 64-bit
+2020-07-21 22:38:23.213 CST [69136] LOG:  listening on IPv6 address "::1", port 5432
+2020-07-21 22:38:23.222 CST [69136] LOG:  listening on IPv4 address "127.0.0.1", port 5432
+2020-07-21 22:38:23.398 CST [71196] LOG:  database system was shut down at 2020-07-21 22:36:18 CST
+2020-07-21 22:38:23.673 CST [69136] LOG:  database system is ready to accept connections
+2020-07-21 23:05:17.774 CST [68056] LOG:  could not receive data from client: An existing connection was forcibly closed by the remote host.
+	

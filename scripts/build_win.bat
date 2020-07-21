@@ -1,3 +1,4 @@
+#!bat
 @echo off
 
 if not exist bin (
