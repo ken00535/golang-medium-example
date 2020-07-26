@@ -34,7 +34,35 @@ func (m *DBClient) Disconnect() {
 	m.client.Close()
 }
 
-func (m *DBClient) Insert() {
-	player := Player{}
-	m.client.Create(&player)
+func (m *DBClient) Insert(player Player) error {
+	res := m.client.Create(&player)
+	if res.Error != nil {
+		return res.Error
+	}
+	return nil
+}
+
+func (m *DBClient) Get() ([]Player, error) {
+	players := []Player{}
+	res := m.client.Order("id").Find(&players)
+	if res.Error != nil {
+		return nil, res.Error
+	}
+	return players, nil
+}
+
+func (m *DBClient) Update(player Player) error {
+	res := m.client.Save(&player)
+	if res.Error != nil {
+		return res.Error
+	}
+	return nil
+}
+
+func (m *DBClient) Delete(player Player) error {
+	res := m.client.Delete(&player)
+	if res.Error != nil {
+		return res.Error
+	}
+	return nil
 }
