@@ -22,5 +22,7 @@ func main() {
 		players[1].Budget = 2000
 		client.Update(players[1])
 	}
+	results, _ := client.GetPlayerJoinGame()
+	fmt.Println(results[0])
 	client.Disconnect()
 }

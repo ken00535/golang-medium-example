@@ -1,7 +1,8 @@
 package postgres
 
+// Player is player
 type Player struct {
-	Id int
+	ID int
 	Age int
 	Username string
 	Budget int

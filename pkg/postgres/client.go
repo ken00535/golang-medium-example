@@ -45,6 +45,7 @@ func (m *DBClient) Insert(player Player) error {
 func (m *DBClient) Get() ([]Player, error) {
 	players := []Player{}
 	res := m.client.Order("id").Find(&players)
+	fmt.Println(players)
 	if res.Error != nil {
 		return nil, res.Error
 	}
@@ -65,4 +66,13 @@ func (m *DBClient) Delete(player Player) error {
 		return res.Error
 	}
 	return nil
+}
+
+func (m *DBClient) GetPlayerJoinGame() ([]JoinResult, error) {
+	results := []JoinResult{}
+	res := m.client.Table("players").Select("*").Joins("inner join games on players.id = games.winner_id").Scan(&results)
+	if res.Error != nil {
+		return nil, res.Error
+	}
+	return results, nil
 }
