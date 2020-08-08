@@ -1,9 +1,13 @@
 package mqtt
 
 import (
+	"encoding/json"
 	"fmt"
 	"log"
+	"math/rand"
 	"os"
+	"strconv"
+	"time"
 
 	"github.com/eclipse/paho.mqtt.golang"
 )
@@ -23,21 +27,32 @@ func New() Client {
 	c := Client{}
 	mqtt.DEBUG = log.New(os.Stdout, "", 0)
 	mqtt.ERROR = log.New(os.Stdout, "", 0)
-	opts := mqtt.NewClientOptions().AddBroker("tcp://127.0.0.1:1883").SetClientID("gotrivial")
+	s1 := rand.NewSource(time.Now().UnixNano())
+	r1 := rand.New(s1)
+	clientID := strconv.Itoa(r1.Int())
+	fmt.Println(clientID)
+	opts := mqtt.NewClientOptions().AddBroker("tcp://127.0.0.1:1883").SetClientID(clientID)
+	opts.DefaultPublishHandler = f
 
 	c.client = mqtt.NewClient(opts)
 	if token := c.client.Connect(); token.Wait() && token.Error() != nil {
 		panic(token.Error())
 	}
-	
+
 	return c
 }
 
 // Publish mqtt message
-func (m Client) Publish() {
-	for i := 0; i < 5; i++ {
-		text := fmt.Sprintf("this is msg #%d!", i)
-		token := m.client.Publish("go-mqtt/sample", 0, false, text)
-		token.Wait()
+func (m Client) Publish(topic string, payload interface{}) {
+	text, _ := json.Marshal(payload)
+	token := m.client.Publish(topic, 0, false, text)
+	token.Wait()
+}
+
+// Subscribe mqtt message
+func (m Client) Subscribe(topic string) {
+	if token := m.client.Subscribe(topic, 0, nil); token.Wait() && token.Error() != nil {
+		fmt.Println(token.Error())
+		os.Exit(1)
 	}
 }
