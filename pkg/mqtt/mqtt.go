@@ -9,7 +9,7 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/eclipse/paho.mqtt.golang"
+	mqtt "github.com/eclipse/paho.mqtt.golang"
 )
 
 // Client is a mqtt client
@@ -31,8 +31,11 @@ func New() Client {
 	r1 := rand.New(s1)
 	clientID := strconv.Itoa(r1.Int())
 	fmt.Println(clientID)
-	opts := mqtt.NewClientOptions().AddBroker("tcp://127.0.0.1:1883").SetClientID(clientID)
+	opts := mqtt.NewClientOptions().AddBroker("tcps://127.0.0.1:1883").SetClientID(clientID)
 	opts.DefaultPublishHandler = f
+
+	tlsConfig := NewTLSConfig()
+	opts.SetTLSConfig(tlsConfig)
 
 	c.client = mqtt.NewClient(opts)
 	if token := c.client.Connect(); token.Wait() && token.Error() != nil {

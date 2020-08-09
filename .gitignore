@@ -1,6 +1,7 @@
 *.exe
 .vscode
 data/*
+configs/mqtt
 !data/.gitkeep
 logfile
 bin
