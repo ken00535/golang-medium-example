@@ -1,5 +1,7 @@
 OUT_DIR = bin
-FILES = $(shell ls -d cmd/*/ | cut -d/ -f2)
+ifndef FILES
+	FILES = $(shell ls -d cmd/*/ | cut -d/ -f2)
+endif
 FILES_OUT = $(addprefix ${OUT_DIR}/,${FILES})
 UNAME_M := $(shell uname -m)
 
