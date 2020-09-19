@@ -33,4 +33,10 @@ func main() {
 		return false
 	})
 	fmt.Println(out.([]float32))
+	out = genny.FilterWithInt(num, func(element int) bool {
+		if element < 6 {
+			return true
+		}
+		return false
+	})
 }
