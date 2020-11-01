@@ -1,0 +1,10 @@
+[
+    {
+        "EventName": "Click",
+        "CallbackArg": "int"
+    },
+    {
+        "EventName": "Move",
+        "CallbackArg": "int"
+    }
+]
