@@ -39,6 +39,7 @@ arm32: ${OUT_DIR} ${FILES_OUT}
 
 .FORCE:
 ${OUT_DIR}/%: .FORCE
+	go generate ./...
 	@echo compiling $(@)...
 	GOOS=$(PLATFORM) GOARCH=$(ARCH) go build -o $(@) -tags $(PLATFORM),$(TAGS) ./cmd/$(basename ${@F})
 

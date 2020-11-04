@@ -1,0 +1,11 @@
+{{- range . }}
+// On{{ .EventName }} register a callback function
+func (c *Context) On{{ .EventName }}(callback func(arg {{ .CallbackArg }})) {
+	c.{{ .EventName }}Callback = callback
+}
+
+// Emit{{ .EventName }} emit a callback event
+func (c *Context) Emit{{ .EventName }}(arg {{ .CallbackArg }}) {
+	c.{{ .EventName }}Callback(arg)
+}
+{{ end }}

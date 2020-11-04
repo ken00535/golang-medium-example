@@ -5,6 +5,6 @@
     },
     {
         "EventName": "Move",
-        "CallbackArg": "int"
+        "CallbackArg": "uint32"
     }
 ]

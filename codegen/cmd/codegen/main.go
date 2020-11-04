@@ -13,15 +13,15 @@ type schema struct {
 }
 
 func main() {
-	var schema schema
-	data, err := ioutil.ReadFile("./config/callback.json")
+	var schemas []schema
+	data, err := ioutil.ReadFile("../../config/callback.json")
 	if err != nil {
 		panic(err)
 	}
-	err = json.Unmarshal(data, &schema)
+	err = json.Unmarshal(data, &schemas)
 	if err != nil {
 		panic(err)
 	}
-	t := template.Must(template.ParseFiles("./tmpl/main.tmpl"))
-	t.Execute(os.Stdout, schema)
+	t := template.Must(template.ParseFiles("../../tmpl/main.tmpl", "../../tmpl/callbackTemplate.tmpl", "../../tmpl/contextTemplate.tmpl"))
+	t.Execute(os.Stdout, schemas)
 }
