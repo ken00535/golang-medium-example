@@ -1,6 +1,6 @@
 // Context can be used to callback
 type Context struct {
 {{- range . }}
-	{{ .EventName }}Callback func({{ .CallbackArg }})
+	{{ .EventName | lower }}Callback func({{ .CallbackArg }})
 {{- end }}
 }

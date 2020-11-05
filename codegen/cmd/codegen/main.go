@@ -2,8 +2,10 @@ package main
 
 import (
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
 	"os"
+	"strings"
 	"text/template"
 )
 
@@ -22,6 +24,13 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	t := template.Must(template.ParseFiles("../../tmpl/main.tmpl", "../../tmpl/callbackTemplate.tmpl", "../../tmpl/contextTemplate.tmpl"))
-	t.Execute(os.Stdout, schemas)
+
+	funcLowerCase := template.FuncMap{"lower": strings.ToLower}
+	t := template.Must(template.New("main.tmpl").Funcs(funcLowerCase).ParseFiles("../../tmpl/main.tmpl"))
+	t = template.Must(t.ParseFiles("../../tmpl/callbackTemplate.tmpl"))
+	t = template.Must(t.ParseFiles("../../tmpl/contextTemplate.tmpl"))
+	err = t.Execute(os.Stdout, schemas)
+	if err != nil {
+		fmt.Println(err)
+	}
 }
