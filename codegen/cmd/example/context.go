@@ -3,7 +3,7 @@ package main
 // Context can be used to callback
 type Context struct {
 	clickCallback func(int)
-	moveCallback  func(uint32)
+	moveCallback func(uint32)
 }
 
 // OnClick register a callback function
