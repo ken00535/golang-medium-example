@@ -13,9 +13,9 @@ type User struct {
 	Birthday time.Time
 }
 
-type UserRepository interface {
-	// 根據使用者id查詢得到一個使用者或是錯誤資訊
-	FindOne(id int) (User, error)
+// Database is database
+type Database interface {
+	First(interface{})
 }
 
 func fooBasic(num1 int, num2 int) int {
@@ -41,6 +41,12 @@ func fooDatabaseCase3() int {
 		panic("error")
 	}
 	db.Close()
+	return user.Age
+}
+
+func fooDatabaseCase4(db Database) int {
+	var user User
+	db.First(&user)
 	return user.Age
 }
 

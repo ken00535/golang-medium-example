@@ -60,3 +60,10 @@ func TestFooDatabase3(t *testing.T) {
 	actual := fooDatabaseCase3()
 	assert.Equal(t, want, actual)
 }
+
+func TestFooDatabase4(t *testing.T) {
+	want := 1
+	db := newDbMock()
+	actual := fooDatabaseCase4(db)
+	assert.Equal(t, want, actual)
+}
