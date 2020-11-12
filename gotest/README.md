@@ -3,5 +3,7 @@
 ## Instructions
 
 ```
-go get github.com/golang/mock/mockgen
+go get -u github.com/golang/mock/mockgen
+go get -u github.com/prashantv/gostub
+go get -u bou.ke/monkey
 ```
