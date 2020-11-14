@@ -5,6 +5,7 @@ import (
 	"testing"
 
 	"bou.ke/monkey"
+	gomock "github.com/golang/mock/gomock"
 	"github.com/jinzhu/gorm"
 	"github.com/prashantv/gostub"
 	"github.com/stretchr/testify/assert"
@@ -61,9 +62,20 @@ func TestFooDatabase3(t *testing.T) {
 	assert.Equal(t, want, actual)
 }
 
-func TestFooDatabase4(t *testing.T) {
+func TestFooDatabase4_1(t *testing.T) {
 	want := 1
 	db := newDbMock()
 	actual := fooDatabaseCase4(db)
+	assert.Equal(t, want, actual)
+}
+
+func TestFooDatabase4_2(t *testing.T) {
+	want := 1
+	var user User
+	ctrl := gomock.NewController(t)
+	defer ctrl.Finish()
+	m := NewMockDatabase(ctrl)
+	m.EXPECT().First(gomock.Eq(&user)).SetArg(0, User{Age: 1})
+	actual := fooDatabaseCase4(m)
 	assert.Equal(t, want, actual)
 }
