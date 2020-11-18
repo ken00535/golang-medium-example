@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"log"
 	"os"
 
@@ -9,9 +8,9 @@ import (
 )
 
 var serviceConfig = &service.Config{
-	Name:        "serviceName",
-	DisplayName: "service Display Name",
-	Description: "service description",
+	Name: "serviceName",
+	// DisplayName: "service Display Name",
+	// Description: "service description",
 }
 
 func main() {
@@ -33,26 +32,26 @@ func main() {
 		}
 		return
 	}
-	cmd := os.Args[1]
-	if cmd == "install" {
-		err = s.Install()
-		if err != nil {
-			log.Fatal(err)
-		}
-		fmt.Println("安裝成功")
-	}
-	if cmd == "uninstall" {
-		err = s.Uninstall()
-		if err != nil {
-			log.Fatal(err)
-		}
-		fmt.Println("解除安裝成功")
-	}
-	// install, uninstall, start, stop 的另一種實現方式
-	// err = service.Control(s, os.Args[1])
-	// if err != nil {
-	// 	log.Fatal(err)
+	// cmd := os.Args[1]
+	// if cmd == "install" {
+	// 	err = s.Install()
+	// 	if err != nil {
+	// 		log.Fatal(err)
+	// 	}
+	// 	fmt.Println("安裝成功")
 	// }
+	// if cmd == "uninstall" {
+	// 	err = s.Uninstall()
+	// 	if err != nil {
+	// 		log.Fatal(err)
+	// 	}
+	// 	fmt.Println("解除安裝成功")
+	// }
+	// install, uninstall, start, stop 的另一種實現方式
+	err = service.Control(s, os.Args[1])
+	if err != nil {
+		log.Fatal(err)
+	}
 }
 
 type Program struct{}
@@ -68,7 +67,7 @@ func (p *Program) Stop(s service.Service) error {
 }
 func (p *Program) run() {
 	text := "this is ..."
-	f, err := os.OpenFile("D:/git/golang-medium-example/service/cmd/file", os.O_APPEND|os.O_WRONLY|os.O_CREATE, 0600)
+	f, err := os.OpenFile("D:/git/golang-medium-example/service/call/file", os.O_APPEND|os.O_WRONLY|os.O_CREATE, 0600)
 	if err != nil {
 		panic(err)
 	}
