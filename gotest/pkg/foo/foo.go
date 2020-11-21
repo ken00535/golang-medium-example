@@ -22,15 +22,15 @@ func fooBasic(num1 int, num2 int) int {
 	return num1 + num2
 }
 
-func fooDatabaseCase1() int {
-	return getUserAge1()
+func fooDatabaseCaseByValueFunc() int {
+	return getUserAgeValueFunc()
 }
 
-func fooDatabaseCase2() int {
-	return getUserAge2()
+func fooDatabaseCaseByFunc() int {
+	return getUserAgeFunc()
 }
 
-func fooDatabaseCase3() int {
+func fooDatabaseCaseDirectCall() int {
 	var user User
 	db, err := gorm.Open("postgres", "host=myhost user=gorm dbname=gorm sslmode=disable password=mypassword")
 	if err != nil {
@@ -44,13 +44,13 @@ func fooDatabaseCase3() int {
 	return user.Age
 }
 
-func fooDatabaseCase4(db Database) int {
+func fooDatabaseCaseIndirectCall(db Database) int {
 	var user User
 	db.First(&user)
 	return user.Age
 }
 
-var getUserAge1 = func() int {
+var getUserAgeValueFunc = func() int {
 	var user User
 	db, err := gorm.Open("postgres", "host=myhost user=gorm dbname=gorm sslmode=disable password=mypassword")
 	if err != nil {
@@ -64,7 +64,7 @@ var getUserAge1 = func() int {
 	return user.Age
 }
 
-func getUserAge2() int {
+func getUserAgeFunc() int {
 	var user User
 	db, err := gorm.Open("postgres", "host=myhost user=gorm dbname=gorm sslmode=disable password=mypassword")
 	if err != nil {

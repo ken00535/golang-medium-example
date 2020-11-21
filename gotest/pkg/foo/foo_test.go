@@ -17,27 +17,27 @@ func TestFooBasic(t *testing.T) {
 	assert.Equal(t, expect, actual)
 }
 
-func TestFooDatabase1(t *testing.T) {
+func TestFooDatabaseByValueFunc(t *testing.T) {
 	want := 1
-	stub := gostub.Stub(&getUserAge1, func() int {
+	stub := gostub.Stub(&getUserAgeValueFunc, func() int {
 		return 1
 	})
 	defer stub.Reset()
-	actual := fooDatabaseCase1()
+	actual := fooDatabaseCaseByValueFunc()
 	assert.Equal(t, want, actual)
 }
 
-func TestFooDatabase2(t *testing.T) {
+func TestFooDatabaseByFunc(t *testing.T) {
 	want := 1
-	patch := monkey.Patch(getUserAge2, func() int {
+	patch := monkey.Patch(getUserAgeFunc, func() int {
 		return 1
 	})
 	defer patch.Restore()
-	actual := fooDatabaseCase2()
+	actual := fooDatabaseCaseByFunc()
 	assert.Equal(t, want, actual)
 }
 
-func TestFooDatabase3(t *testing.T) {
+func TestFooDatabaseByMonkeyPatch(t *testing.T) {
 	want := 1
 	user := User{Age: 1}
 	db := &gorm.DB{}
@@ -58,24 +58,24 @@ func TestFooDatabase3(t *testing.T) {
 		patchFirst.Restore()
 		patchClose.Restore()
 	}()
-	actual := fooDatabaseCase3()
+	actual := fooDatabaseCaseDirectCall()
 	assert.Equal(t, want, actual)
 }
 
-func TestFooDatabase4_1(t *testing.T) {
+func TestFooDatabaseCustomMock(t *testing.T) {
 	want := 1
-	db := newDbMock()
-	actual := fooDatabaseCase4(db)
+	m := newDbMock()
+	actual := fooDatabaseCaseIndirectCall(m)
 	assert.Equal(t, want, actual)
 }
 
-func TestFooDatabase4_2(t *testing.T) {
+func TestFooDatabaseGomock(t *testing.T) {
 	want := 1
 	var user User
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 	m := NewMockDatabase(ctrl)
 	m.EXPECT().First(gomock.Eq(&user)).SetArg(0, User{Age: 1})
-	actual := fooDatabaseCase4(m)
+	actual := fooDatabaseCaseIndirectCall(m)
 	assert.Equal(t, want, actual)
 }
